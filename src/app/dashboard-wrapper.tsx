@@ -2,8 +2,8 @@
 
 import { ReactNode, useEffect } from "react";
 
-import Navbar from "@/app/(components)/Navbar";
-import Sidebar from "@/app/(components)/Sidebar";
+import Navbar from "@/app/components/navbar";
+import Sidebar from "@/app/components/sidebar";
 import StoreProvider, { useAppSelector } from "@/app/redux";
 import { cn } from "@/lib/utils";
 

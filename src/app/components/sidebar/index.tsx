@@ -144,13 +144,15 @@ function Sidebar() {
   );
 }
 
-interface SidebarLinkProps {
+export const SidebarLink = ({
+  href,
+  icon: Icon,
+  label,
+}: {
   href: string;
   icon: LucideIcon;
   label: string;
-}
-
-export const SidebarLink = ({ href, icon: Icon, label }: SidebarLinkProps) => {
+}) => {
   const pathname = usePathname();
   const isActive =
     pathname === href || (pathname === "/" && href === "/dashboard");
@@ -175,4 +177,4 @@ export const SidebarLink = ({ href, icon: Icon, label }: SidebarLinkProps) => {
   );
 };
 
-export default Sidebar;
+export { Sidebar };

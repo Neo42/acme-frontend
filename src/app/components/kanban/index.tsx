@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { EllipsisVertical, MessageCircle, Plus } from "lucide-react";
 import Image from "next/image";
 
+import { priorityColors, statusColors } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import {
   Priority,
@@ -68,18 +69,11 @@ const TaskColumn = ({
     accept: "task",
     drop: (item: { id: number }) => onUpdateTaskStatus(item.id, status),
     collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
+      isOver: !!monitor.isOver({ shallow: true }),
     }),
   });
 
   const taskCount = tasks.filter((task) => task.status === status).length;
-
-  const statusColors = {
-    [Status.TO_DO]: "bg-[#2563EB]",
-    [Status.WORK_IN_PROGRESS]: "bg-[#059669]",
-    [Status.UNDER_REVIEW]: "bg-[#D97706]",
-    [Status.COMPLETED]: "bg-[#000000]",
-  };
   const statusColor = statusColors[status];
 
   return (
@@ -129,7 +123,7 @@ interface TaskCardProps {
 }
 
 const TaskCard = ({ task }: TaskCardProps) => {
-  const [{ isDragging }, drag] = useDrag({
+  const [, drag] = useDrag({
     type: "task",
     item: { id: task.id },
     collect: (monitor) => ({
@@ -140,11 +134,11 @@ const TaskCard = ({ task }: TaskCardProps) => {
   const taskTagsList = task.tags?.split(",") || [];
 
   const formattedStartDate = task.startDate
-    ? format(new Date(task.startDate), "P")
+    ? format(new Date(task.startDate), "dd/MM/yyyy")
     : null;
 
   const formattedDueDate = task.dueDate
-    ? format(new Date(task.dueDate), "P")
+    ? format(new Date(task.dueDate), "dd/MM/yyyy")
     : null;
 
   const numberOfComments = task.comments?.length || 0;
@@ -155,14 +149,13 @@ const TaskCard = ({ task }: TaskCardProps) => {
         drag(instance);
       }}
       className={cn(
-        "mb-4 rounded-md bg-white p-4 shadow dark:bg-dark-secondary",
-        isDragging && "opacity-50",
+        "mb-4 translate-x-0 translate-y-0 overflow-hidden rounded-xl bg-white p-4 shadow dark:bg-dark-secondary",
       )}
     >
       {task.attachments && task.attachments.length > 0 && (
         <Image
           src={`/${task.attachments[0].fileURL}`}
-          alt={task.attachments[0].filename}
+          alt={task.attachments[0].fileName}
           width={400}
           height={200}
           className="h-auto w-full rounded-md"
@@ -225,7 +218,7 @@ const TaskCard = ({ task }: TaskCardProps) => {
                 alt={task.author.username}
                 width={30}
                 height={30}
-                className="size-8 rounded-full border-2 border-white object-cover transition-all duration-300 group-hover:translate-x-2 dark:border-dark-secondary"
+                className="size-8 rounded-full border-2 border-white object-cover transition-all duration-200 group-hover:translate-x-2 dark:border-dark-secondary"
               />
             )}
           </div>
@@ -241,16 +234,9 @@ const TaskCard = ({ task }: TaskCardProps) => {
   );
 };
 
-const priorityColors = {
-  [Priority.BACKLOG]: "bg-gray-200 text-gray-700",
-  [Priority.LOW]: "bg-blue-200 text-blue-700",
-  [Priority.MEDIUM]: "bg-green-200 text-green-700",
-  [Priority.HIGH]: "bg-yellow-200 text-yellow-700",
-  [Priority.URGENT]: "bg-red-200 text-red-700",
-};
-
 const PriorityTag = ({ priority }: { priority: Task["priority"] }) => {
   const priorityColor = priorityColors[priority ?? Priority.BACKLOG];
+
   return (
     <div
       className={cn(
@@ -263,4 +249,4 @@ const PriorityTag = ({ priority }: { priority: Task["priority"] }) => {
   );
 };
 
-export default Kanban;
+export { Kanban };

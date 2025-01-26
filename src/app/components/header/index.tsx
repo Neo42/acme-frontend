@@ -1,18 +1,20 @@
 "use client";
 
-type Props = {
+const Header = ({
+  name,
+  children,
+  textSize = "text-2xl",
+}: {
   name: string;
-  button?: React.ReactNode;
+  children?: React.ReactNode;
   textSize?: "text-lg" | "text-2xl";
-};
-
-const Header = ({ name, button, textSize = "text-2xl" }: Props) => {
+}) => {
   return (
     <div className="mb-5 flex w-full items-center justify-between">
       <h1 className={`font-semibold dark:text-white ${textSize}`}>{name}</h1>
-      {button}
+      {children}
     </div>
   );
 };
 
-export default Header;
+export { Header };

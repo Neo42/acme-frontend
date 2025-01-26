@@ -35,7 +35,7 @@ export interface User {
 export interface Attachment {
   id: number;
   fileURL: string;
-  filename: string;
+  fileName: string;
   taskId: number;
   uploadedById: number;
 }
@@ -60,10 +60,23 @@ export interface Task {
   attachments?: Attachment[];
 }
 
+export interface SearchResult {
+  tasks?: Task[];
+  projects?: Project[];
+  users?: User[];
+}
+
+export interface Team {
+  id: number;
+  name: string;
+  productOwnerUserId?: number;
+  projectManagerUserId?: number;
+}
+
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_URL }),
   reducerPath: "api",
-  tagTypes: ["Projects", "Tasks"],
+  tagTypes: ["Projects", "Tasks", "Users", "Teams"],
   endpoints: (build) => ({
     getProjects: build.query<Project[], void>({
       query: () => "projects",
@@ -102,6 +115,17 @@ export const api = createApi({
         { type: "Tasks", id: taskId },
       ],
     }),
+    getUsers: build.query<User[], void>({
+      query: () => "users",
+      providesTags: ["Users"],
+    }),
+    getTeams: build.query<Team[], void>({
+      query: () => "teams",
+      providesTags: ["Teams"],
+    }),
+    search: build.query<SearchResult, string>({
+      query: (query) => `search?query=${query}`,
+    }),
   }),
 });
 
@@ -110,5 +134,8 @@ export const {
   useCreateTaskMutation,
   useGetProjectsQuery,
   useGetTasksQuery,
+  useGetUsersQuery,
+  useGetTeamsQuery,
   useUpdateTaskStatusMutation,
+  useSearchQuery,
 } = api;

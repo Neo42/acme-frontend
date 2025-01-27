@@ -12,11 +12,11 @@ import { Priority, Status, useCreateTaskMutation } from "@/state/api";
 const NewTaskModal = ({
   isOpen,
   onClose,
-  projectId,
+  existingProjectId,
 }: {
   isOpen: boolean;
   onClose: () => void;
-  projectId: string;
+  existingProjectId?: string;
 }) => {
   const [createTask, { isLoading }] = useCreateTaskMutation();
   const [formData, setFormData] = useState({
@@ -29,6 +29,7 @@ const NewTaskModal = ({
     dueDate: "",
     authorUserId: "",
     assignedUserId: "",
+    projectId: "",
   });
   const {
     title,
@@ -40,6 +41,7 @@ const NewTaskModal = ({
     dueDate,
     authorUserId,
     assignedUserId,
+    projectId,
   } = formData;
   const [error, setError] = useState<z.ZodError | null>(null);
   const startDateRef = useRef<HTMLInputElement>(null);
@@ -50,8 +52,11 @@ const NewTaskModal = ({
       z.object({
         title: z.string().min(1, "Title is required"),
         authorUserId: z.string().min(1, "Author User ID is required"),
+        projectId: existingProjectId
+          ? z.string().optional()
+          : z.string().min(1, "Project ID is required"),
       }),
-    [],
+    [existingProjectId],
   );
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -74,7 +79,7 @@ const NewTaskModal = ({
         dueDate: formattedDueDate,
         authorUserId: parseInt(authorUserId),
         assignedUserId: parseInt(assignedUserId),
-        projectId: parseInt(projectId),
+        projectId: parseInt(existingProjectId ?? projectId),
       });
 
       onClose();
@@ -97,6 +102,7 @@ const NewTaskModal = ({
         assignedUserId: "",
         startDate: "",
         dueDate: "",
+        projectId: "",
       });
     }
   }, [isOpen]);
@@ -219,6 +225,17 @@ const NewTaskModal = ({
           }}
           className={inputClassNames}
         />
+        {!existingProjectId && (
+          <input
+            type="text"
+            placeholder="Project ID"
+            value={projectId}
+            onChange={(e) => {
+              setFormData({ ...formData, projectId: e.target.value });
+            }}
+            className={inputClassNames}
+          />
+        )}
         <button
           type="submit"
           disabled={isLoading || !!error}

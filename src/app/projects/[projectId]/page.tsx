@@ -20,7 +20,7 @@ const ProjectPage = () => {
       <NewTaskModal
         isOpen={isNewTaskModalOpen}
         onClose={() => setIsNewTaskModalOpen(false)}
-        projectId={projectId as string}
+        existingProjectId={projectId as string}
       />
 
       <ProjectHeader activeTab={activeTab} setActiveTab={setActiveTab} />

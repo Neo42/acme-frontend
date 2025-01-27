@@ -18,7 +18,6 @@ import {
 
 import { Header } from "@/app/components/header";
 import { useAppSelector } from "@/app/redux";
-import { COLORS } from "@/lib/constants";
 import {
   Priority,
   Project,
@@ -28,6 +27,8 @@ import {
 } from "@/state/api";
 
 const Page = () => {
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+
   const {
     data: tasks,
     isLoading: isLoadingTasks,

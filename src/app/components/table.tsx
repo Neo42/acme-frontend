@@ -1,14 +1,26 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 import { format } from "date-fns";
-import { PlusSquare } from "lucide-react";
 
 import { Header } from "@/app/components/header";
 import { useAppSelector } from "@/app/redux";
-import { statusColors } from "@/lib/constants";
-import { priorityColors } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { Priority, Status, useGetTasksQuery } from "@/state/api";
+
+const statusColors = {
+  [Status.TO_DO]: "bg-[#2563EB]",
+  [Status.WORK_IN_PROGRESS]: "bg-[#059669]",
+  [Status.UNDER_REVIEW]: "bg-[#D97706]",
+  [Status.COMPLETED]: "bg-[#000000]",
+};
+
+const priorityColors = {
+  [Priority.BACKLOG]: "bg-gray-200 text-gray-700",
+  [Priority.LOW]: "bg-blue-200 text-blue-700",
+  [Priority.MEDIUM]: "bg-green-200 text-green-700",
+  [Priority.HIGH]: "bg-yellow-200 text-yellow-700",
+  [Priority.URGENT]: "bg-red-200 text-red-700",
+};
 
 const columns: GridColDef[] = [
   { field: "title", headerName: "Title", width: 100 },
@@ -20,7 +32,7 @@ const columns: GridColDef[] = [
     renderCell: (params) => (
       <span
         className={cn(
-          "inline-flex rounded-full px-2 text-xs font-semibold leading-5 text-white",
+          "inline-flex rounded-full px-2 text-xs font-semibold leading-5",
           statusColors[params.value as Status],
         )}
       >

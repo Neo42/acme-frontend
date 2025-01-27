@@ -14,3 +14,5 @@ export const priorityColors = {
   [Priority.HIGH]: "bg-yellow-200 text-yellow-700",
   [Priority.URGENT]: "bg-red-200 text-red-700",
 } as const;
+
+export const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"] as const;

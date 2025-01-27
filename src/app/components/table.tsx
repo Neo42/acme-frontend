@@ -32,7 +32,7 @@ const columns: GridColDef[] = [
     renderCell: (params) => (
       <span
         className={cn(
-          "inline-flex rounded-full px-2 text-xs font-semibold leading-5",
+          "inline-flex rounded-full px-2 text-xs font-semibold leading-5 text-white",
           statusColors[params.value as Status],
         )}
       >

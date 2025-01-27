@@ -64,7 +64,7 @@ const columns: GridColDef[] = [
         {params.value?.split(",").map((tag: string) => (
           <div
             key={tag}
-            className="rounded-full bg-gray-200 px-2 text-xs font-semibold leading-5 text-gray-700"
+            className="rounded-full bg-blue-100 px-2 text-xs leading-5 text-gray-700"
           >
             {tag}
           </div>

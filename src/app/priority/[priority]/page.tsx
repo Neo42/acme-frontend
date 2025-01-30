@@ -12,7 +12,12 @@ import { NewTaskModal } from "@/app/components/new-task-modal";
 import { TaskCard } from "@/app/components/task-card";
 import { useAppSelector } from "@/app/redux";
 import { cn } from "@/lib/utils";
-import { Priority, Status, useGetTasksByUserQuery } from "@/state/api";
+import {
+  Priority,
+  Status,
+  useGetAuthUserQuery,
+  useGetTasksByUserQuery,
+} from "@/state/api";
 
 const statusColors = {
   [Status.TO_DO]: "bg-[#2563EB]",
@@ -121,7 +126,9 @@ const PriorityPage = () => {
   const { priority } = useParams();
   const [view, setView] = useState<"list" | "table">("list");
   const [isNewTaskModalOpen, setIsNewTaskModalOpen] = useState(false);
-  const userId = 1;
+  const { data: currentUser } = useGetAuthUserQuery({});
+  const userId = currentUser?.userDetails?.userId ?? null;
+
   const {
     data: tasks,
     isLoading,

@@ -2,6 +2,9 @@
 
 import { ReactNode, useEffect } from "react";
 
+import "@aws-amplify/ui-react/styles.css";
+
+import { AuthProvider } from "@/app/auth-provider";
 import { Navbar } from "@/app/components/navbar";
 import { Sidebar } from "@/app/components/sidebar";
 import StoreProvider, { useAppSelector } from "@/app/redux";
@@ -40,7 +43,9 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
 const DashboardWrapper = ({ children }: { children: ReactNode }) => {
   return (
     <StoreProvider>
-      <DashboardLayout>{children}</DashboardLayout>
+      <AuthProvider>
+        <DashboardLayout>{children}</DashboardLayout>
+      </AuthProvider>
     </StoreProvider>
   );
 };

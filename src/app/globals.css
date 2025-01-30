@@ -60,3 +60,7 @@ body,
 .timeline ._29NTg {
   @apply dark:text-neutral-500;
 }
+
+[data-amplify-authenticator] {
+  @apply flex h-screen w-screen items-center justify-center;
+}

@@ -7,7 +7,7 @@ const UserCard = ({ user }: { user: User }) => {
     <div className="mb-3 flex items-center rounded border p-4 shadow">
       {user.profilePictureUrl && (
         <Image
-          src={`/${user.profilePictureUrl}`}
+          src={`https://acme-s3-images.s3.ap-southeast-2.amazonaws.com/${user.profilePictureUrl}`}
           alt={user.username}
           className="size-10 rounded-full object-cover"
           width={32}

@@ -13,7 +13,7 @@ const TaskCard = ({ task }: { task: Task }) => {
             {task.attachments.map((attachment) => (
               <Image
                 key={attachment.id}
-                src={`/${attachment.fileURL}`}
+                src={`https://acme-s3-images.s3.ap-southeast-2.amazonaws.com/${attachment.fileURL}`}
                 alt={attachment.fileName}
                 width={400}
                 height={200}
